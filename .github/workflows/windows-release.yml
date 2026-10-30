@@ -36,6 +36,12 @@ jobs:
       - name: Test and build installer and portable ZIP
         shell: pwsh
         run: ./build.ps1
+      - name: Verify installer and runtime upgrade
+        shell: pwsh
+        run: |
+          $releaseVersion = (python -c "from version import __version__; print(__version__)").Trim()
+          python verify_installer.py "artifacts/3DUltimator-Setup-$releaseVersion-windows-x64.exe"
+          if ($LASTEXITCODE -ne 0) { throw "Installer smoke tests failed." }
       - name: Upload build files
         uses: actions/upload-artifact@v4
         with:

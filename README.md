@@ -89,6 +89,13 @@ The build script runs tests, builds the app with PyInstaller, compiles
 and `SHA256SUMS.txt` to `artifacts/`. Use `-ISCCPath` for a custom compiler location,
 `-SkipInstaller` for a portable-only build, or `-SkipTests` for an already verified build.
 
+DLL discovery is restricted to Python and Windows directories. The build starts the frozen EXE
+in an isolated working directory and verifies Qt startup, the eight-package scenario and language
+switching before creating an archive or installer. Upgrades replace the private `_internal` runtime
+directory completely to prevent stale DLLs from overriding the correct libraries.
+On disposable GitHub runners, an additional test installs the EXE, verifies startup, simulates
+a stale runtime file, upgrades the installation and checks startup again before uninstalling.
+
 GitHub Actions builds on pushes to `main`, pull requests and manual requests. Successful builds
 are available as Actions artifacts. On `main`, a new version from `version.py` is published to
 Releases; an existing release is preserved. Increase `version.py` for the next release.
@@ -184,6 +191,13 @@ Zainstaluj [Inno Setup 6.3+ lub 7](https://jrsoftware.org/isdl.php), a następni
 Skrypt uruchamia testy, buduje aplikację i kompiluje `installer/3DUltimator.iss`.
 Instalator, ZIP i sumy SHA-256 trafiają do `artifacts/`. Parametr `-ISCCPath` wskazuje kompilator,
 `-SkipInstaller` pomija instalator, a `-SkipTests` pomija wcześniej wykonane testy.
+
+Wyszukiwanie DLL jest ograniczone do katalogów Pythona i Windowsa. Przed utworzeniem wydania
+skrypt uruchamia gotowy EXE w odizolowanym katalogu i sprawdza start Qt, przykład ośmiu paczek
+oraz zmianę języka. Instalator przy aktualizacji zastępuje cały prywatny folder `_internal`,
+aby starsze biblioteki nie przesłaniały właściwych zależności.
+Na tymczasowym komputerze GitHub dodatkowy test instaluje program, sprawdza start,
+symuluje pozostałość starej biblioteki, wykonuje aktualizację, ponownie sprawdza start i odinstalowuje program.
 
 GitHub Actions buduje projekt po zmianach na `main`, dla pull requestów i na żądanie.
 Nowa wersja z `version.py` trafia do Releases; istniejące wydania pozostają bez zmian.

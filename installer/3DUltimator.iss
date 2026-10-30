@@ -1,7 +1,7 @@
 ; Inno Setup 6.3+ / 7. Compile through build.ps1, or open in the Inno Setup IDE.
 #define MyAppName "3D Ultimator"
 #ifndef MyAppVersion
-  #define MyAppVersion "1.1.1"
+  #define MyAppVersion "1.1.2"
 #endif
 #ifndef AppSource
   #define AppSource "..\dist\3DUltimator"
@@ -44,6 +44,11 @@ Source: "{#AppSource}\_internal\*"; DestDir: "{app}\_internal"; Flags: ignorever
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\AUTHORS.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\examples\eight-packages.json"; DestDir: "{app}\examples"; Flags: ignoreversion
+
+[InstallDelete]
+; The runtime directory contains only shipped libraries. Replace it completely
+; so DLLs from an older build cannot shadow Windows/Qt dependencies.
+Type: filesandordirs; Name: "{app}\_internal"
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\3DUltimator.exe"

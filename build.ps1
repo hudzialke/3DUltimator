@@ -30,6 +30,8 @@ try {
 
     New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
     $appDirectory = Join-Path $DistPath "3DUltimator"
+    & $Python verify_bundle.py (Join-Path $appDirectory "3DUltimator.exe")
+    if ($LASTEXITCODE -ne 0) { throw "Frozen application smoke tests failed; release creation stopped." }
     Copy-Item -LiteralPath (Join-Path $projectRoot "README.md") -Destination $appDirectory -Force
     Copy-Item -LiteralPath (Join-Path $projectRoot "AUTHORS.md") -Destination $appDirectory -Force
     Copy-Item -LiteralPath (Join-Path $projectRoot "examples") -Destination $appDirectory -Recurse -Force

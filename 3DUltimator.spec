@@ -1,6 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
-from PyInstaller.utils.hooks import collect_all
 from pathlib import Path
+import os
+import sys
+sys.path.insert(0, str(Path(SPECPATH)))
+from packaging_support import configure_windows_build_environment, validate_binary_sources
+trusted_roots = configure_windows_build_environment() if os.name == 'nt' else None
+from PyInstaller.utils.hooks import collect_all
 from PySide6.QtCore import QLibraryInfo
 
 datas = []
@@ -28,6 +33,8 @@ a = Analysis(
     noarchive=False,
     optimize=0,
 )
+if trusted_roots is not None:
+    validate_binary_sources(a.binaries, trusted_roots)
 pyz = PYZ(a.pure)
 
 exe = EXE(
@@ -39,7 +46,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
@@ -52,7 +59,7 @@ coll = COLLECT(
     a.binaries,
     a.datas,
     strip=False,
-    upx=True,
+    upx=False,
     upx_exclude=[],
     name='3DUltimator',
 )

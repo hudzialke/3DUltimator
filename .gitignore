@@ -14,5 +14,6 @@ test-results.txt
 settings.ini
 package_library.json
 tests/tmp*/
+.bundle-smoke-*/
 .DS_Store
 Thumbs.db

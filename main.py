@@ -1,5 +1,6 @@
 import json
 import argparse
+from pathlib import Path
 import sys
 from dataclasses import dataclass
 from typing import List, Tuple
@@ -391,7 +392,7 @@ class PackageTableModel(QAbstractTableModel):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, *, settings=None):
+    def __init__(self, *, settings=None, library=None):
         super().__init__()
         self.settings = settings if settings is not None else QSettings(
             QSettings.IniFormat, QSettings.UserScope, "3DUltimator", "settings")
@@ -428,7 +429,7 @@ class MainWindow(QMainWindow):
         self.package_model = PackageTableModel(
             [PackageType(40, 30, 60, 30, True, True, True, True)]
         )
-        self.package_library = PackageLibrary()
+        self.package_library = library if library is not None else PackageLibrary()
 
         self.placed_boxes: List[PlacedBox] = []
         self.undo_stack: List[UndoState] = []
@@ -1584,8 +1585,29 @@ def main():
     parser = argparse.ArgumentParser(description="3D Ultimator cargo planner")
     parser.add_argument("--language", choices=("pl", "en"), help="Initial UI language")
     parser.add_argument("--version", action="version", version=__version__)
+    parser.add_argument("--smoke-test", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--smoke-dir", help=argparse.SUPPRESS)
     options, qt_arguments = parser.parse_known_args()
     app = QApplication([sys.argv[0], *qt_arguments])
+    if options.smoke_test:
+        if not options.smoke_dir:
+            parser.error("--smoke-test requires --smoke-dir")
+        smoke_dir = Path(options.smoke_dir)
+        settings = QSettings(str(smoke_dir / "settings.ini"), QSettings.IniFormat)
+        settings.setValue("language", "en")
+        w = MainWindow(settings=settings, library=PackageLibrary(smoke_dir / "library.json"))
+        w.package_model.packages = [PackageType(8, 123, 83, 50, False, False, False, True)]
+        w.compute_packing()
+        if len(w.placed_boxes) != 8 or any(b.overflow for b in w.placed_boxes) or w.layout_issues:
+            raise RuntimeError("Packaged eight-package regression failed")
+        w.language_combo.setCurrentIndex(w.language_combo.findData("pl"))
+        w.language_combo.setCurrentIndex(w.language_combo.findData("en"))
+        w.show()
+        QTimer.singleShot(250, app.quit)
+        result = app.exec()
+        w.close()
+        app.processEvents()
+        sys.exit(result)
     w = MainWindow()
     if options.language:
         w.language_combo.setCurrentIndex(w.language_combo.findData(options.language))
