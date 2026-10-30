@@ -14,6 +14,9 @@ EN = {
     "Ilość": "Quantity", "Piętrowalna": "Stackable",
     "Rot X": "Rotate X", "Rot Y": "Rotate Y", "Rot Z": "Rotate Z",
     "Plik": "File", "Cofnij": "Undo", "Obróć Z": "Rotate Z",
+    "Pomoc": "Help", "O programie…": "About…", "O programie": "About",
+    "Autor projektu: {author}.\nProgram został w całości wykonany przez agentów AI.\n\nWersja: {version}\nRepozytorium: https://github.com/hudzialke/3DUltimator":
+        "Project author: {author}.\nThe program was implemented entirely by AI agents.\n\nVersion: {version}\nRepository: https://github.com/hudzialke/3DUltimator",
     "Anuluj przesuwanie": "Cancel move", "Usuń typ paczki": "Delete package type",
     "Zapisz konfigurację…": "Save configuration…",
     "Wczytaj konfigurację…": "Load configuration…",

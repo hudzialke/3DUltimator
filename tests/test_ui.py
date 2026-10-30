@@ -108,6 +108,18 @@ class UiTests(unittest.TestCase):
         self.assertEqual('Ilość', w.package_model.headerData(0, Qt.Horizontal))
         self.assertIn('MIEŚCI SIĘ', w.verdict_label.text())
 
+    def test_about_identifies_author_and_ai_implementation_in_both_languages(self):
+        w = self.window
+        for code, title, phrase in [('pl', 'O programie', 'w całości wykonany przez agentów AI'),
+                                    ('en', 'About', 'implemented entirely by AI agents')]:
+            w.language_combo.setCurrentIndex(w.language_combo.findData(code))
+            with patch('main.QMessageBox.about') as about:
+                w.show_about()
+                args = about.call_args.args
+                self.assertEqual(title, args[1])
+                self.assertIn('hudzialke', args[2])
+                self.assertIn(phrase, args[2])
+
     def test_language_preference_is_restored_in_a_new_window(self):
         w = self.window
         w.language_combo.setCurrentIndex(w.language_combo.findData('en'))

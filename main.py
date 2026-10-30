@@ -670,6 +670,16 @@ class MainWindow(QMainWindow):
         act_load = QAction("Wczytaj konfigurację…", self)
         act_load.triggered.connect(self.load_config)
         file_menu.addAction(act_load)
+        help_menu = bar.addMenu("Pomoc")
+        about_action = QAction("O programie…", self)
+        about_action.triggered.connect(self.show_about)
+        help_menu.addAction(about_action)
+
+    def show_about(self):
+        QMessageBox.about(self, tr("O programie"), tr(
+            "Autor projektu: {author}.\nProgram został w całości wykonany przez agentów AI.\n\n"
+            "Wersja: {version}\nRepozytorium: https://github.com/hudzialke/3DUltimator",
+            author="hudzialke", version=__version__))
 
     def _change_language(self, _index):
         self._finish_drag(False)

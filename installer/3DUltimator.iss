@@ -1,7 +1,7 @@
 ; Inno Setup 6.3+ / 7. Compile through build.ps1, or open in the Inno Setup IDE.
 #define MyAppName "3D Ultimator"
 #ifndef MyAppVersion
-  #define MyAppVersion "1.1.0"
+  #define MyAppVersion "1.1.1"
 #endif
 #ifndef AppSource
   #define AppSource "..\dist\3DUltimator"
@@ -42,6 +42,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "{#AppSource}\3DUltimator.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#AppSource}\_internal\*"; DestDir: "{app}\_internal"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\AUTHORS.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\examples\eight-packages.json"; DestDir: "{app}\examples"; Flags: ignoreversion
 
 [Icons]

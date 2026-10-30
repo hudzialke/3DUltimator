@@ -1,20 +1,29 @@
-Polski / English
+# 3D Ultimator 1.1.1
 
-- Wybór języka polskiego i angielskiego u góry okna, bez restartu; zapamiętywanie wyboru.
-- Lepsze układanie: mieszane obroty, różne kolejności, układy rzędów i cofanie decyzji.
-- Przypadek 8 paczek 123 × 83 × 50 cm w przestrzeni 485 × 220 × 245 cm mieści się bez piętrowania.
-- Płynne ręczne przesuwanie i przyciąganie do paczek z odstępem 1 cm.
-- Delete usuwa typ paczki, Ctrl+Z cofa zmiany; nieprawidłowy ruch jest cofany.
-- Instalator Windows x64 w języku polskim i angielskim, bez wymagania uprawnień administratora.
+**Project author: hudzialke. The program was implemented entirely by AI agents.**
 
----
-
+- Authorship and AI implementation are disclosed in Help → About, README and AUTHORS.md.
+- Documentation starts with the full English guide, followed by the full Polish guide.
 - Polish/English selector at the top of the window; instant switching and a saved preference.
 - Improved packing with mixed rotations, multiple item orders, row layouts and backtracking.
 - Eight 123 × 83 × 50 cm packages fit in a 485 × 220 × 245 cm vehicle without stacking.
-- Smooth dragging with a 1 cm snap gap between packages.
-- Delete removes a package type, Ctrl+Z restores changes; invalid drops are reverted.
-- Windows x64 installer in Polish and English, with no administrator privileges required.
+- Smooth dragging with a 1 cm snap gap; Delete removes a type and Ctrl+Z restores changes.
+- Windows x64 installer in English and Polish, without administrator privileges.
 
 Download the **Setup EXE** to install, or extract the **portable ZIP** and run `3DUltimator.exe`.
-Keep the `_internal` directory beside the executable. SHA-256 checksums are included in `SHA256SUMS.txt`.
+Keep `_internal` beside the executable. Check `SHA256SUMS.txt` to verify a download.
+
+---
+
+**Autor projektu: hudzialke. Program został w całości wykonany przez agentów AI.**
+
+- Informacja o autorstwie i wykonaniu przez AI: Pomoc → O programie, README oraz AUTHORS.md.
+- Dokumentacja zawiera najpierw pełną wersję angielską, a następnie pełną wersję polską.
+- Wybór języka u góry okna, bez restartu, z zapamiętaniem ustawienia.
+- Lepsze układanie: mieszane obroty, różne kolejności, układy rzędów i cofanie decyzji.
+- Osiem paczek 123 × 83 × 50 cm mieści się w przestrzeni 485 × 220 × 245 cm bez piętrowania.
+- Płynne przesuwanie z przyciąganiem 1 cm; Delete usuwa typ, Ctrl+Z cofa zmiany.
+- Instalator Windows x64 po polsku i angielsku, bez wymagania uprawnień administratora.
+
+Pobierz **Setup EXE**, aby zainstalować program, albo rozpakuj **Portable ZIP**.
+Zachowaj folder `_internal` obok `3DUltimator.exe`. Sumy kontrolne są w `SHA256SUMS.txt`.

@@ -31,6 +31,7 @@ try {
     New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
     $appDirectory = Join-Path $DistPath "3DUltimator"
     Copy-Item -LiteralPath (Join-Path $projectRoot "README.md") -Destination $appDirectory -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "AUTHORS.md") -Destination $appDirectory -Force
     Copy-Item -LiteralPath (Join-Path $projectRoot "examples") -Destination $appDirectory -Recurse -Force
     $portableName = "3DUltimator-$appVersion-windows-x64-portable.zip"
     & $Python -c "import shutil,sys; shutil.make_archive(sys.argv[1], 'zip', root_dir=sys.argv[2], base_dir='3DUltimator')" (Join-Path $OutputPath $portableName.Replace('.zip', '')) $DistPath
