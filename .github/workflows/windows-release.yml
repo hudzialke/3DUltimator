@@ -1,0 +1,60 @@
+name: Windows build and release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      PYTHONUTF8: '1'
+      QT_OPENGL: software
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-build.txt
+      - name: Install build dependencies
+        run: python -m pip install -r requirements-build.txt
+      - name: Test and build installer and portable ZIP
+        shell: pwsh
+        run: ./build.ps1
+      - name: Upload build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: 3DUltimator-windows-x64
+          path: artifacts/*
+          if-no-files-found: error
+      - name: Publish a new version
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $releaseVersion = (python -c "from version import __version__; print(__version__)").Trim()
+          $releaseTag = "v$releaseVersion"
+          gh release view $releaseTag --repo $env:GITHUB_REPOSITORY 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "Release $releaseTag already exists; build files remain in Actions artifacts."
+            exit 0
+          }
+          $files = @(Get-ChildItem -LiteralPath artifacts -File | ForEach-Object { $_.FullName })
+          gh release create $releaseTag @files --repo $env:GITHUB_REPOSITORY --target $env:GITHUB_SHA --title "3D Ultimator $releaseVersion" --notes-file RELEASE_NOTES.md
+          if ($LASTEXITCODE -ne 0) { throw "Could not publish the GitHub release." }

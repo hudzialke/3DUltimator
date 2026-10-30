@@ -1,0 +1,7 @@
+{
+  "container": {"x": 485, "y": 220, "z": 245},
+  "packages": [
+    {"count": 8, "dx": 123, "dy": 83, "dz": 50, "stackable": false,
+     "rot_x": false, "rot_y": false, "rot_z": true}
+  ]
+}
